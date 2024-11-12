@@ -1,11 +1,11 @@
 import pygame
-from game import Game  # Import the Game class
+from game_logic import Game  # Import the Game class
 
 # Initialize Pygame
 pygame.init()
 
-# Set up the game
+# Set up the game with specified screen size
 game = Game(screen_width=800, screen_height=600)
 
-# Start the game loop
+# Run the game loop
 game.run()
