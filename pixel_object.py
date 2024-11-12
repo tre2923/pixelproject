@@ -1,30 +1,33 @@
-import pygame
+# pixel_object.py
 
-class PixelObject:
+from game_object import GameObject
+
+
+class PixelObject(GameObject):
     def __init__(self, mass, position, size=1):
         """
-        Initialize a PixelObject with mass, position, and size.
+        Initialize a PixelObject, inheriting from GameObject.
 
-        :param mass: Mass of the object (in kg).
-        :param position: Position of the object as a tuple (x, y).
-        :param size: The size of the object (default is 1, making it a single pixel).
+        :param mass: Mass of the object.
+        :param position: Tuple for x, y coordinates.
+        :param size: Size of the object, default is 1 pixel.
         """
-        self.mass = mass
-        self.position = pygame.Vector2(position)
-        self.size = size  # Size of the object (default is 1)
+        super().__init__(mass, position, size)
 
     def get_pixels(self):
         """
-        Get the list of positions representing the pixels that make up the PixelObject
-        based on its size.
+        Get the coordinates of the pixels that make up the object based on its size.
 
-        :return: A list of (x, y) tuples representing the pixels.
+        :return: List of tuples with (x, y) coordinates for each pixel in the object.
         """
-        pixels = []
+        x, y = self.position
+        pixels = [(x, y)]
 
-        # Loop through the size to add pixels in all directions
-        for dx in range(-self.size + 1, self.size):
-            for dy in range(-self.size + 1, self.size):
-                pixels.append((self.position.x + dx, self.position.y + dy))
+        # Add neighboring pixels to the north, south, east, and west
+        for i in range(1, self.size):
+            pixels.extend([
+                (x + i, y), (x - i, y),  # Right and left
+                (x, y + i), (x, y - i)  # Down and up
+            ])
 
         return pixels

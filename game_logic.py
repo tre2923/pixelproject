@@ -1,59 +1,39 @@
 import pygame
-from pixel_object import PixelObject
-from renderer import render  # Import render function to handle object drawing
-from screen import initialize_screen  # Import the screen setup function
-
+from screen import Screen
+from game_state import GameState
+from events import handle_events
+from renderer import render  # Render function for drawing objects
 
 class Game:
     def __init__(self, screen_width, screen_height):
         """
-        Initialize the Game with display parameters and the game objects.
-
-        :param screen_width: Width of the screen.
-        :param screen_height: Height of the screen.
+        Initializes the game with screen, game state, and other essential components.
         """
-        self.screen_width = screen_width
-        self.screen_height = screen_height
-        self.screen = initialize_screen(self.screen_width, self.screen_height, "Black Pixel on White Screen")
-
-        # Initialize game objects (like PixelObject)
-        self.pixel = PixelObject(1.0, (self.screen_width // 2, self.screen_height // 2), size=3)
-
-    def handle_events(self):
-        """
-        Processes user events (like quitting the game).
-        """
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                return False  # Return False to indicate the game should end
-        return True
+        self.screen_handler = Screen(screen_width, screen_height, "Black Pixel on White Screen")
+        self.state = GameState()  # Initialize game state
 
     def update(self):
         """
-        Update the game state (e.g., positions, interactions).
-        Currently no updates, but this is where you’d add game logic.
+        Update game state and logic.
         """
+        # Here you can include any game state updates outside of events
         pass
 
     def render(self):
         """
-        Clears the screen, then draws objects.
+        Render the game objects on the screen.
         """
-        # Clear the screen with a white background
-        self.screen.fill((255, 255, 255))
-
-        # Render PixelObject
-        render(self.screen, self.pixel)
+        self.screen_handler.clear_screen((255, 255, 255))  # Clear with white background
+        render(self.screen_handler.screen, self.screen_handler.pixel)  # Render the main object
+        pygame.display.flip()
 
     def run(self):
         """
         Main game loop.
         """
-        running = True
-        while running:
-            running = self.handle_events()
-            self.update()
-            self.render()
-            pygame.display.flip()
+        while self.state.running:
+            handle_events(self.state)  # Handle user inputs
+            self.update()  # Update game state
+            self.render()  # Render to the screen
 
         pygame.quit()
