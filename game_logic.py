@@ -25,5 +25,5 @@ class Game:
         while self.state.running:
             handle_events(self.state)
             self.scene.update()
-            self.renderer.render_scene(self.scene)  # Delegate rendering to the Renderer
+            self.renderer.render_scene(self.scene)  # Render the scene
         pygame.quit()

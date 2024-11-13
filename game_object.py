@@ -1,38 +1,31 @@
 # game_object.py
 
 class GameObject:
-    def __init__(self, mass, position, size=1):
+    def __init__(self, mass, position, size=1, velocity=(0, 0)):
         """
-        Base class for all game objects, including common attributes such as mass, position, and size.
+        Initializes a new game object.
 
-        :param mass: Mass of the object.
-        :param position: Tuple for the object's x, y coordinates.
-        :param size: Size of the object, default is 1.
+        :param mass: The mass of the object.
+        :param position: A tuple (x, y) representing the position of the object.
+        :param size: The size of the object (used for PixelObject to determine area).
+        :param velocity: A tuple (vx, vy) representing the velocity of the object.
         """
         self.mass = mass
         self.position = position
         self.size = size
+        self.velocity = velocity
 
-    def get_position(self):
+    def update(self):
         """
-        Returns the current position of the object.
+        Update the state of the object. This method should be overridden by subclasses
+        to implement custom behavior for each object.
+        """
+        pass
 
-        :return: Tuple of (x, y) coordinates.
+    def get_pixels(self):
         """
-        return self.position
+        Returns the list of pixels that make up the object (to be overridden in subclasses).
 
-    def set_position(self, new_position):
+        :return: A list of tuples (x, y) representing the pixels occupied by the object.
         """
-        Sets a new position for the object.
-
-        :param new_position: Tuple with new (x, y) coordinates.
-        """
-        self.position = new_position
-
-    def get_mass(self):
-        """
-        Returns the mass of the object.
-
-        :return: Mass of the object.
-        """
-        return self.mass
+        raise NotImplementedError("get_pixels method must be implemented in the subclass.")
